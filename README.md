@@ -23,5 +23,3 @@ We use [Issues](https://github.com/CommandCodeAI/status/issues) as incident repo
 <!--end: status pages-->
 
 [**Visit our status website →**](https://status.commandcode.ai)
-
-[**Visit our status website →**](https://status.commandcode.ai/)
