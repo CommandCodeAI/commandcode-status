@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Command Code",
+    "url": "https://api.commandcode.ai",
+    "icon": "https://icons.duckduckgo.com/ip3/api.commandcode.ai.ico",
+    "slug": "command-code",
+    "status": "up",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 972,
+    "timeDay": 972,
+    "timeWeek": 972,
+    "timeMonth": 972,
+    "timeYear": 972,
+    "dailyMinutesDown": {}
+  }
+]
