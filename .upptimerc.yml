@@ -1,36 +1,24 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+owner: CommandCodeAI
+repo: commandcode-status
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Test Broken Site
-    url: https://thissitedoesnotexist.koj.co
-  - name: IPv6 test
-    url: forwardemail.net
-    port: 80
-    check: "tcp-ping"
-    ipv6: true
+  - name: Command Code
+    url: https://api.commandcode.ai
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  cname: status.commandcode.ai
+  logoUrl: https://raw.githubusercontent.com/CommandCodeAI/docs-images/refs/heads/main/commandcode/logo/commandcode-light.svg
+  name: Command Code Status
+  introTitle: "**Command Code** Status"
+  introMessage: This is the status page for [Command Code](https://commandcode.ai), showing real-time uptime and incident history.
   navbar:
+    - title: Command Code
+      href: https://commandcode.ai
     - title: Status
       href: /
-    - title: GitHub
-      href: https://github.com/$OWNER/$REPO
-
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+    - title: Subscribe on GitHub
+      href: https://github.com/$OWNER/$REPO/issues
+status-page:
+  faviconSvg: https://raw.githubusercontent.com/langbaseinc/status/master/assets/favicon.svg
+i18n:
+  footer: ''
