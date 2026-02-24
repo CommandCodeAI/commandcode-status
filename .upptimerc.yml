@@ -1,23 +1,24 @@
-owner: CommandCodeAI # Your GitHub organization or username, where this repository lives
-repo: status # The name of this repository
+owner: CommandCodeAI
+repo: commandcode-status
 
 sites:
-  - name: CommandCode.ai
-    url: https://commandcode.ai
+  - name: Command Code
+    url: https://api.commandcode.ai
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
   cname: status.commandcode.ai
-  # baseUrl: /status
-  name: CommandCode Status
-  introTitle: "**CommandCode.ai** Status"
-  introMessage: This is the status page for [CommandCode.ai](https://commandcode.ai), showing real-time uptime and incident history.
+  logoUrl: https://raw.githubusercontent.com/CommandCodeAI/docs-images/refs/heads/main/commandcode/logo/commandcode-light.svg
+  name: Command Code Status
+  introTitle: "**Command Code** Status"
+  introMessage: This is the status page for [Command Code](https://commandcode.ai), showing real-time uptime and incident history.
   navbar:
+    - title: Command Code
+      href: https://commandcode.ai
     - title: Status
       href: /
-    - title: GitHub
-      href: https://github.com/$OWNER/$REPO
-
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+    - title: Subscribe on GitHub
+      href: https://github.com/$OWNER/$REPO/issues
+status-page:
+  faviconSvg: https://raw.githubusercontent.com/langbaseinc/status/master/assets/favicon.svg
+i18n:
+  footer: ''
