@@ -7,7 +7,7 @@ sites:
 
 status-website:
   cname: status.commandcode.ai
-  logoUrl: https://raw.githubusercontent.com/CommandCodeAI/docs-images/refs/heads/main/commandcode/logo/commandcode-light.svg
+  logoUrl: https://raw.githubusercontent.com/LangbaseInc/docs-images/refs/heads/main/design/logo/logo-symbol.svg
   name: Command Code Status
   navbar:
     - title: Command Code
