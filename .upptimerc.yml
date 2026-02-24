@@ -9,8 +9,6 @@ status-website:
   cname: status.commandcode.ai
   logoUrl: https://raw.githubusercontent.com/CommandCodeAI/docs-images/refs/heads/main/commandcode/logo/commandcode-light.svg
   name: Command Code Status
-  introTitle: "**Command Code** Status"
-  introMessage: This is the status page for [Command Code](https://commandcode.ai), showing real-time uptime and incident history.
   navbar:
     - title: Command Code
       href: https://commandcode.ai
