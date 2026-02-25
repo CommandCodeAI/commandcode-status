@@ -7,7 +7,7 @@ sites:
 
 status-website:
   cname: status.commandcode.ai
-  logoUrl: https://raw.githubusercontent.com/LangbaseInc/docs-images/refs/heads/main/design/logo/logo-symbol.svg
+  logoUrl: https://raw.githubusercontent.com/CommandCodeAI/docs-images/refs/heads/main/design/logo/logo-symbol.svg
   name: Command Code Status
   navbar:
     - title: Command Code
@@ -17,6 +17,6 @@ status-website:
     - title: Subscribe on GitHub
       href: https://github.com/$OWNER/$REPO/issues
 status-page:
-  faviconSvg: https://raw.githubusercontent.com/langbaseinc/status/master/assets/favicon.svg
+  faviconSvg: https://raw.githubusercontent.com/CommandCodeAI/status/master/assets/favicon.svg
 i18n:
   footer: ''
