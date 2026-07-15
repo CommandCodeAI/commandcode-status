@@ -4,8 +4,10 @@
   --card-background-color: #ffffff;
   --nav-background-color: #ffffff;
   --nav-border-bottom-color: #e4e4e7;
-  --nav-current-border-bottom-color: #0d9488;
+  --nav-current-border-bottom-color: #2e1b9c;
   --card-border-color: #e4e4e7;
+  --dash-color: #e4e4e7;
+  --muted-foreground: #71717a;
   --down-border-left-color: #dc2626;
   --down-background-color: #fef2f2;
   --degraded-border-left-color: #d97706;

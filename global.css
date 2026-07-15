@@ -1,10 +1,18 @@
-/* Design tokens */
+/* ============================================================
+   CMD Design System — status.commandcode.ai
+   Black canvas, zero radius, solid bordered column, corner
+   boxes, monospace section labels, functional color only.
+   See .claude/cmd-design/SKILL.md + references/*
+   ============================================================ */
+
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Oxygen", "Ubuntu", Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Oxygen", "Ubuntu", Cantarell,
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-full: 9999px;
+  --radius: 0px;
+  --pill: 100px;
+  --frame-width: 880px;
+  --dash-h: repeating-linear-gradient(to right, var(--dash-color) 0 5px, transparent 5px 7px);
 }
 
 /* Base */
@@ -14,6 +22,7 @@
 
 body {
   margin: 0;
+  overflow-x: hidden;
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.6;
@@ -33,18 +42,30 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: 2.25rem;
+  letter-spacing: -0.03em;
 }
 
+/* Section headings — monospace, uppercase, "//" prefix */
 h2,
 main h2,
 main h2.svelte-18y4uo2 {
+  font-family: var(--font-mono);
   font-size: 0.8125rem;
-  font-weight: 700;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-top: 2.5rem;
+  margin-top: 0;
   margin-bottom: 1rem;
-  opacity: 0.7;
+}
+
+h2::before,
+main h2::before,
+main h2.svelte-18y4uo2::before {
+  content: "//";
+  display: inline-block;
+  margin-right: 0.6em;
+  letter-spacing: -0.2em;
+  opacity: 0.5;
 }
 
 h3,
@@ -80,32 +101,57 @@ label:focus-visible {
 }
 
 code {
-  color: var(--code-color);
-  background: var(--code-background-color);
+  color: var(--code-color, var(--body-text-color));
+  background: var(--code-background-color, var(--card-background-color));
   font-family: var(--font-mono);
   padding: 0.125rem 0.25rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   font-size: 0.875em;
 }
 
 /* Container */
 .container,
 .container.svelte-a08hsz.svelte-a08hsz {
-  max-width: 880px;
+  max-width: var(--frame-width);
   margin: 0 auto;
   padding: 0 1.5rem;
   box-sizing: border-box;
 }
 
-/* Nav */
+/* Nav — full-bleed, bottom border only, no side borders. Its own
+   corner boxes sit on its bottom border, marking the nav/main seam. */
 nav.svelte-a08hsz.svelte-a08hsz {
+  position: relative;
   font-weight: 400;
   padding: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
   white-space: normal;
   overflow: visible;
   border-bottom: 1px solid var(--nav-border-bottom-color);
   background: var(--nav-background-color);
+}
+
+nav.svelte-a08hsz.svelte-a08hsz::before,
+nav.svelte-a08hsz.svelte-a08hsz::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--body-background-color);
+  border: 1px solid var(--card-border-color);
+  pointer-events: none;
+  z-index: 5;
+}
+
+nav.svelte-a08hsz.svelte-a08hsz::before {
+  left: calc(50% - (var(--frame-width) / 2) - 1px);
+  transform: translate(-50%, 50%);
+}
+
+nav.svelte-a08hsz.svelte-a08hsz::after {
+  right: calc(50% - (var(--frame-width) / 2) - 1px);
+  transform: translate(50%, 50%);
 }
 
 nav.svelte-a08hsz .container.svelte-a08hsz.svelte-a08hsz {
@@ -122,30 +168,29 @@ nav.svelte-a08hsz ul.svelte-a08hsz.svelte-a08hsz {
   list-style: none;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.25rem;
+  gap: 1.5rem;
 }
 
-nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz {
+nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz:not(.logo) {
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
+  padding: 0.25rem 0;
   display: block;
   font-size: 0.875rem;
+  color: var(--muted-foreground, var(--body-text-color));
+  opacity: 0.75;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz:not(.logo):hover {
+  opacity: 1;
   color: var(--body-text-color);
-  border-radius: var(--radius-sm);
-  transition: background 0.15s ease, color 0.15s ease;
-  opacity: 0.8;
 }
 
-nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz:hover {
+nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz:not(.logo)[aria-current] {
   opacity: 1;
-  background: var(--card-background-color);
-}
-
-nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz[aria-current] {
-  border-bottom: none;
-  background: var(--card-background-color);
-  opacity: 1;
+  color: var(--body-text-color);
   font-weight: 600;
+  border-bottom: 2px solid var(--nav-current-border-bottom-color);
 }
 
 .logo.svelte-a08hsz.svelte-a08hsz {
@@ -161,18 +206,51 @@ nav.svelte-a08hsz a.svelte-a08hsz.svelte-a08hsz[aria-current] {
 .logo.svelte-a08hsz img.svelte-a08hsz {
   margin-right: 0.75rem;
   height: 2rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
 }
 
-/* Main */
+/* Main — the bordered content column. Corner boxes sit at its
+   bottom, marking the main/footer seam (nav owns the top seam). */
 main.container {
-  padding-top: 1rem;
-  padding-bottom: 3rem;
+  position: relative;
+  padding: 3rem 1.5rem 3rem;
+  border-left: 1px dashed transparent;
+  border-right: 1px dashed transparent;
+  background-image:
+    repeating-linear-gradient(to bottom, var(--dash-color) 0 5px, transparent 5px 7px),
+    repeating-linear-gradient(to bottom, var(--dash-color) 0 5px, transparent 5px 7px);
+  background-position: left top, right top;
+  background-size: 1px 7px, 1px 7px;
+  background-repeat: repeat-y, repeat-y;
+  background-origin: border-box;
+}
+
+main.container::before,
+main.container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--body-background-color);
+  border: 1px solid var(--card-border-color);
+  pointer-events: none;
+  z-index: 5;
+}
+
+main.container::before {
+  left: -1px;
+  transform: translate(-50%, 50%);
+}
+
+main.container::after {
+  right: -1px;
+  transform: translate(50%, 50%);
 }
 
 header.svelte-ngkazm.svelte-ngkazm,
 header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 header h1 {
@@ -192,23 +270,22 @@ section.svelte-8lnl4f {
   margin-bottom: 2rem;
 }
 
-section + h2 {
-  margin-top: 2.5rem;
+.f.changed {
+  margin-bottom: 1rem;
 }
 
 /* Cards / Articles */
 article {
   padding: 1rem 1.25rem;
   position: relative;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius);
   border: 1px solid var(--card-border-color);
   background: var(--card-background-color);
-  transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.15s ease;
 }
 
 article.link:hover {
   border-color: var(--nav-current-border-bottom-color);
-  transform: translateY(-1px);
 }
 
 article.link a::after {
@@ -264,12 +341,12 @@ article.degraded-active {
   gap: 0.25rem;
 }
 
-/* Tags */
+/* Tags — pill is the one radius exception, alongside CTA buttons */
 .tag {
   display: inline-flex;
   align-items: center;
   padding: 0.25rem 0.625rem;
-  border-radius: var(--radius-full);
+  border-radius: var(--pill);
   font-size: 0.6875rem;
   font-weight: 700;
   vertical-align: middle;
@@ -298,7 +375,7 @@ article.degraded-active {
   color: var(--tag-color) !important;
 }
 
-/* Radio / Time selector */
+/* Radio / Time selector — geometric buttons, sharp corners, invert on hover */
 .r input,
 .r.svelte-fqsq6s input.svelte-fqsq6s.svelte-fqsq6s {
   display: none;
@@ -308,30 +385,31 @@ article.degraded-active {
 .r.svelte-fqsq6s label.svelte-fqsq6s.svelte-fqsq6s {
   margin-left: 0;
   padding: 0.375rem 0.75rem;
-  border-radius: var(--radius-sm);
-  font-size: 0.8125rem;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
   cursor: pointer;
   border: 1px solid var(--card-border-color);
-  background: var(--card-background-color);
+  background: transparent;
   color: var(--body-text-color);
-  transition: all 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
   font-family: var(--font-mono);
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 .r label:hover,
 .r.svelte-fqsq6s label.svelte-fqsq6s.svelte-fqsq6s:hover {
   opacity: 1;
   border-color: var(--nav-current-border-bottom-color);
+  color: var(--nav-current-border-bottom-color);
 }
 
 .r input:checked + label,
 .r input:checked + label.svelte-fqsq6s.svelte-fqsq6s.svelte-fqsq6s,
 .r.svelte-fqsq6s input.svelte-fqsq6s:checked + label.svelte-fqsq6s.svelte-fqsq6s {
   font-weight: 700;
-  background: var(--body-text-color);
-  color: var(--body-background-color);
-  border-color: var(--body-text-color);
+  background: var(--nav-current-border-bottom-color);
+  color: #ffffff;
+  border-color: var(--nav-current-border-bottom-color);
   opacity: 1;
 }
 
@@ -376,7 +454,7 @@ article.degraded-active {
   font-family: var(--font-mono);
   font-weight: 600;
   padding: 0.15rem 0.4rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   transition: background 0.3s ease;
 }
 
@@ -407,7 +485,7 @@ a.error-button,
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   font-size: 0.875rem;
   font-weight: 500;
   transition: background 0.15s ease, border-color 0.15s ease;
@@ -445,15 +523,82 @@ a.error-button:hover,
   opacity: 0.35;
 }
 
-/* Footer */
+/* Footer — continues the bordered column, corner boxes at its bottom */
 footer.svelte-jbr799.svelte-jbr799 {
+  position: relative;
   text-align: center;
-  opacity: 0.65;
-  margin-top: 4rem;
-  padding: 2rem 1.5rem;
-  border-top: 1px solid var(--card-border-color);
+  margin-top: 0;
+  padding: 2.5rem 1.5rem;
+  border-left: 1px dashed transparent;
+  border-right: 1px dashed transparent;
   color: var(--body-text-color);
   font-size: 0.875rem;
+  background-image:
+    repeating-linear-gradient(to right, var(--dash-color) 0 5px, transparent 5px 7px),
+    repeating-linear-gradient(to bottom, var(--dash-color) 0 5px, transparent 5px 7px),
+    repeating-linear-gradient(to bottom, var(--dash-color) 0 5px, transparent 5px 7px);
+  background-position: left top, left top, right top;
+  background-size: 7px 1px, 1px 7px, 1px 7px;
+  background-repeat: repeat-x, repeat-y, repeat-y;
+  background-origin: border-box;
+}
+
+/* Powered-by lockup — the footer's <p> is otherwise empty, so the
+   icon, label, and wordmark are all generated content on it. */
+footer.svelte-jbr799.svelte-jbr799 p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18px;
+}
+
+footer.svelte-jbr799.svelte-jbr799 p::before {
+  content: "Powered by";
+  display: inline-flex;
+  align-items: center;
+  padding-left: 22px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted-foreground, var(--body-text-color));
+  opacity: 0.85;
+}
+
+footer.svelte-jbr799.svelte-jbr799 p::after {
+  content: "";
+  display: inline-block;
+  width: 92px;
+  height: 18px;
+  margin-left: 0.5rem;
+  background-image: url(https://commandcode.ai/logov2/logo-bg-transparent-fg-dark.svg);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+  filter: var(--logo-filter, none);
+  opacity: 0.85;
+}
+
+footer.svelte-jbr799.svelte-jbr799::before,
+footer.svelte-jbr799.svelte-jbr799::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--body-background-color);
+  border: 1px solid var(--card-border-color);
+  pointer-events: none;
+}
+
+footer.svelte-jbr799.svelte-jbr799::before {
+  left: -1px;
+  transform: translate(-50%, 50%);
+}
+
+footer.svelte-jbr799.svelte-jbr799::after {
+  right: -1px;
+  transform: translate(50%, 50%);
 }
 
 footer a {
@@ -474,6 +619,18 @@ dl dt {
 
 dl dd {
   margin: 0 0 1rem 0;
+}
+
+/* Hide corner boxes below the width they're designed for */
+@media (max-width: 999px) {
+  nav.svelte-a08hsz.svelte-a08hsz::before,
+  nav.svelte-a08hsz.svelte-a08hsz::after,
+  main.container::before,
+  main.container::after,
+  footer.svelte-jbr799.svelte-jbr799::before,
+  footer.svelte-jbr799.svelte-jbr799::after {
+    display: none;
+  }
 }
 
 /* Responsive */

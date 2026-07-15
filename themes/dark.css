@@ -1,11 +1,14 @@
 :root {
-  --body-background-color: #0a0a0b;
-  --body-text-color: #f4f4f5;
-  --card-background-color: #141416;
-  --nav-background-color: #0a0a0b;
+  --body-background-color: #000000;
+  --body-text-color: #fafafa;
+  --card-background-color: #0a0a0b;
+  --nav-background-color: #000000;
   --nav-border-bottom-color: #222226;
-  --nav-current-border-bottom-color: #1abc9c;
+  --nav-current-border-bottom-color: #8c4edd;
   --card-border-color: #222226;
+  --dash-color: #181818;
+  --muted-foreground: #a1a1aa;
+  --logo-filter: invert(1) brightness(1.8);
   --down-border-left-color: #f43f5e;
   --down-background-color: #2a0a0f;
   --degraded-border-left-color: #f59e0b;
