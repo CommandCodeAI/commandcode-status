@@ -25,5 +25,5 @@
   --submit-button-background-color: #161b22;
   --submit-button-color: #c9d1d9;
   --graph-opacity: 0.85;
-  --graph-filter: none;
+  --graph-filter: hue-rotate(-40deg);
 }

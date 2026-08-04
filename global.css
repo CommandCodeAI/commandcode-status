@@ -354,12 +354,36 @@ article.up::after {
   background: var(--up-border-left-color);
 }
 
-/* The top summary banner already carries its own status emoji —
-   the corner dot is redundant there, so drop it. */
+/* The top summary banner carries its own status icon (see
+   status-icon-fix.js) — the corner dot is redundant there. */
 article.up:not(.link)::after,
 article.degraded:not(.link)::after,
 article.down:not(.link)::after {
   display: none;
+}
+
+/* Real SVG icon replacing the bundle's hardcoded emoji. The icon
+   itself is a self-contained outline glyph, colored via
+   currentColor to match its status. */
+.status-banner-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 0.5rem;
+  vertical-align: -4px;
+}
+
+.status-banner-icon.up {
+  color: var(--up-border-left-color);
+}
+
+.status-banner-icon.degraded {
+  color: var(--degraded-border-left-color);
+}
+
+.status-banner-icon.down {
+  color: var(--down-border-left-color);
 }
 
 /* Pulse ring on live/healthy status dots — signals "actively
@@ -515,12 +539,26 @@ article.degraded-active {
 .live-status article.svelte-fqsq6s.svelte-fqsq6s.svelte-fqsq6s,
 .live-status article.graph.svelte-fqsq6s.svelte-fqsq6s.svelte-fqsq6s {
   position: relative;
-  padding-right: 1.25rem;
+  padding-right: 200px;
+  min-height: 96px;
 }
 
-/* Sparkline background-image removed — card shows status text only */
 .live-status article.graph.svelte-fqsq6s.svelte-fqsq6s.svelte-fqsq6s {
-  background-image: none !important;
+  background-image: var(--background);
+  background-size: auto 48px;
+  background-repeat: no-repeat;
+  background-position: right 1.25rem bottom 1rem;
+  opacity: var(--graph-opacity);
+  filter: var(--graph-filter);
+}
+
+/* The response-time chart on a monitor's detail page is drawn on a
+   <canvas> with its teal line color baked into the compiled bundle
+   (not a CSS variable) — hue-shift it to the theme's green instead
+   of hand-patching the minified JS. Same rotation as the sparkline
+   above, so both read as the same base green. */
+main canvas {
+  filter: var(--graph-filter);
 }
 
 .live-status .icon,
@@ -653,7 +691,6 @@ article.degraded-active {
   min-width: 4px;
   height: 28px;
   background: var(--up-border-left-color);
-  opacity: 0.85;
 }
 
 .status-cell.degraded {
