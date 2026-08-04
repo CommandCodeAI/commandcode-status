@@ -14,16 +14,15 @@
   }
 
   function fix() {
-    var article = document.querySelector("article.up");
-    if (!article) return;
-    var walker = document.createTreeWalker(article, NodeFilter.SHOW_TEXT, null);
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null);
+    var matches = [];
     var node;
     while ((node = walker.nextNode())) {
-      if (node.nodeValue.trim() === "✅") {
-        node.parentNode.replaceChild(createIcon(), node);
-        break;
-      }
+      if (node.nodeValue.trim() === "✅") matches.push(node);
     }
+    matches.forEach(function (textNode) {
+      textNode.parentNode.replaceChild(createIcon(), textNode);
+    });
   }
 
   fix();
@@ -32,10 +31,12 @@
 
   // The Sapper bundle re-renders this section on hydration and on each
   // data poll, reinstating the emoji text node — watch for that and
-  // swap it back to the SVG.
-  var target = document.querySelector("main.container");
-  if (target && window.MutationObserver) {
-    new MutationObserver(fix).observe(target, {
+  // swap it back to the SVG. This script runs from a <script> tag in
+  // <nav>, before <main> exists, so observe document.body (already
+  // present when the tag executes) rather than a more specific
+  // container that isn't in the DOM yet.
+  if (window.MutationObserver) {
+    new MutationObserver(fix).observe(document.body, {
       childList: true,
       subtree: true,
       characterData: true,
