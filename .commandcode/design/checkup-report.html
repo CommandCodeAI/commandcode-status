@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Command Code Status - Checkup Report</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+		.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+		.report-section { border: 1px solid #222226; background: #0a0a0b; position: relative; }
+		.corner-box { position: absolute; width: 20px; height: 20px; border: 1px solid #222226; background: #000; }
+	</style>
+</head>
+<body class="bg-black text-[#fafafa]">
+	<main class="mx-auto w-full max-w-6xl px-5 py-8 md:px-10 md:py-12">
+		<header class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// CHECKUP</div>
+					<h1 class="text-4xl font-bold tracking-tight md:text-6xl">Command Code Status</h1>
+				</div>
+				<div class="mono text-left text-xs text-[#666] md:text-right">
+					<div>COMMANDCODE REPORT</div>
+					<div class="text-[#444]">2026-07-16</div>
+				</div>
+			</div>
+		</header>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="corner-box left-0 top-0 -translate-x-1/2 -translate-y-1/2"></div>
+			<div class="corner-box right-0 top-0 translate-x-1/2 -translate-y-1/2"></div>
+			<div class="grid gap-8 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+				<div>
+					<div class="mono mb-2 text-xs tracking-widest text-[#666]">// OVERALL</div>
+					<div class="text-6xl font-bold tracking-tight md:text-7xl">40</div>
+					<div class="mt-1 text-lg text-[#666]">/ 60</div>
+					<div class="mt-4 inline-flex border border-[#fbbf24]/30 bg-[#fbbf24]/10 px-3 py-1 text-sm text-[#fbbf24]">PROCEED WITH FIXES</div>
+				</div>
+				<div>
+					<div class="mono mb-3 text-xs tracking-widest text-[#666]">// TL;DR</div>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Basically healthy and shippable. Two vitals fully healthy (readability, speed). Four carry contained watches: a reflexive violet accent, keyboard-inaccessible time selector, no reduced-motion support, and undersized touch targets.</p>
+					<p class="mt-4 text-sm leading-6 text-[#fbbf24]">No critical blocker. Fix the accessibility and usability watches before calling it done.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// VITAL SIGNS</div>
+			<div class="overflow-x-auto">
+				<table class="w-full min-w-[720px] border-collapse text-sm">
+					<thead>
+						<tr class="border-b border-[#222226] text-left mono text-xs text-[#666]">
+							<th class="py-3 pr-4 font-normal">#</th>
+							<th class="py-3 pr-4 font-normal">VITAL</th>
+							<th class="py-3 pr-4 font-normal">STATUS</th>
+							<th class="py-3 pr-4 font-normal">SCORE</th>
+							<th class="py-3 font-normal">KEY FINDING</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-4 pr-4 text-[#555]">1</td><td class="py-4 pr-4 text-[#fafafa]">Intentionality</td><td class="py-4 pr-4 text-[#fbbf24]">Watch</td><td class="py-4 pr-4 text-[#fbbf24]">5/10</td><td class="py-4 text-[#a0a0a0]">Composition authored; identity accent is reflexive violet.</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-4 pr-4 text-[#555]">2</td><td class="py-4 pr-4 text-[#fafafa]">Readability</td><td class="py-4 pr-4 text-[#34d399]">Healthy</td><td class="py-4 pr-4 text-[#34d399]">10/10</td><td class="py-4 text-[#a0a0a0]">Good contrast and sizes in both themes.</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-4 pr-4 text-[#555]">3</td><td class="py-4 pr-4 text-[#fafafa]">Usability</td><td class="py-4 pr-4 text-[#fbbf24]">Watch</td><td class="py-4 pr-4 text-[#fbbf24]">5/10</td><td class="py-4 text-[#a0a0a0]">Time selector radios are display:none — keyboard-inaccessible.</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-4 pr-4 text-[#555]">4</td><td class="py-4 pr-4 text-[#fafafa]">Responsiveness</td><td class="py-4 pr-4 text-[#fbbf24]">Watch</td><td class="py-4 pr-4 text-[#fbbf24]">5/10</td><td class="py-4 text-[#a0a0a0]">Time-selector labels ~36px, below 44px touch minimum.</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-4 pr-4 text-[#555]">5</td><td class="py-4 pr-4 text-[#fafafa]">Speed</td><td class="py-4 pr-4 text-[#34d399]">Healthy</td><td class="py-4 pr-4 text-[#34d399]">10/10</td><td class="py-4 text-[#a0a0a0]">Static site, service-worker cached, fast.</td></tr>
+						<tr class="border-b border-[#1a1a1e]"><td class="py-4 pr-4 text-[#555]">6</td><td class="py-4 pr-4 text-[#fafafa]">Accessibility</td><td class="py-4 pr-4 text-[#fbbf24]">Watch</td><td class="py-4 pr-4 text-[#fbbf24]">5/10</td><td class="py-4 text-[#a0a0a0]">Unfocusable radios, no reduced-motion, possible color-only status.</td></tr>
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// PRESCRIPTIONS</div>
+			<div class="space-y-5">
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">USABILITY</div>
+					<h2 class="mb-2 text-lg font-semibold">Keyboard-inaccessible time selector</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Radios use display:none, removing them from the tab order. input:focus-visible styles are defined but can never fire. Intent was keyboard support; implementation blocks it.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Use visually-hidden (position:absolute; clip) so radios stay focusable. Transfer the focus ring to labels via input:focus-visible + label.</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">ACCESSIBILITY</div>
+					<h2 class="mb-2 text-lg font-semibold">No reduced-motion support</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Loading spinner rotates indefinitely via SMIL. No prefers-reduced-motion query. CSS transitions also run unconditionally.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Add prefers-reduced-motion media query. Shorten transitions to near-zero. Hide the rotating spinner arc, keep the static circle.</div>
+				</article>
+				<article class="border border-[#2a1d22] bg-[#110b0d] p-5">
+					<div class="mono mb-2 text-xs text-[#f43f5e]">RESPONSIVENESS</div>
+					<h2 class="mb-2 text-lg font-semibold">Undersized touch targets</h2>
+					<p class="mb-4 text-sm leading-6 text-[#a0a0a0]">Time-selector labels are ~36px tall (12px font + 6px padding), below the 44px minimum.</p>
+					<div class="border-l border-[#fbbf24] pl-4 text-sm leading-6 text-[#fbbf24]">FIX: Enlarge vertical padding on pointer: coarse devices. Keep desktop compact.</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="report-section mb-8 p-6 md:p-8">
+			<div class="mono mb-6 text-xs tracking-widest text-[#666]">// WHAT'S WORKING</div>
+			<div class="grid gap-4 md:grid-cols-3">
+				<article class="border border-[#1f1f24] p-4">
+					<h2 class="mb-2 text-sm font-semibold">Monitor composition</h2>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Status list, time-range control, incident feed, dated history — matches the work pattern.</p>
+				</article>
+				<article class="border border-[#1f1f24] p-4">
+					<h2 class="mb-2 text-sm font-semibold">Readable across themes</h2>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Good contrast in light and dark. Mono labels are small but appropriate.</p>
+				</article>
+				<article class="border border-[#1f1f24] p-4">
+					<h2 class="mb-2 text-sm font-semibold">Fast delivery</h2>
+					<p class="text-sm leading-6 text-[#a0a0a0]">Static site with service-worker caching. No jank.</p>
+				</article>
+			</div>
+		</section>
+
+		<footer class="mono py-8 text-center text-xs tracking-widest text-[#444]">
+			Generated with CommandCode - 2026-07-16
+		</footer>
+	</main>
+</body>
+</html>
