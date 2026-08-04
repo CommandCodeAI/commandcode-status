@@ -9,11 +9,75 @@
   var DAY_MS = 24 * 60 * 60 * 1000;
   var MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-  var root = document.getElementById("system-status-rows");
-  var rangeLabel = document.getElementById("system-status-range");
-  var prevBtn = document.querySelector('.status-nav-btn[data-dir="prev"]');
-  var nextBtn = document.querySelector('.status-nav-btn[data-dir="next"]');
-  if (!root) return;
+  var SPINNER =
+    '<div class="loading"><svg height="38" stroke="#aaa" width="38" xmlns="http://www.w3.org/2000/svg">' +
+    '<g fill="none" fill-rule="evenodd"><g stroke-width="2" transform="translate(1 1)">' +
+    '<circle cx="18" cy="18" r="18" stroke-opacity=".5"></circle>' +
+    '<path d="M36 18c0-9.94-8.06-18-18-18"><animateTransform attributeName="transform" dur="1s" ' +
+    'from="0 18 18" repeatCount="indefinite" to="360 18 18" type="rotate"></animateTransform></path>' +
+    "</g></g></svg></div>";
+
+  var SECTION_HTML =
+    '<section id="system-status" class="system-status" aria-labelledby="system-status-heading">' +
+    '<div class="f changed"><h2 id="system-status-heading">System status</h2>' +
+    '<div class="status-nav">' +
+    '<button type="button" class="status-nav-btn" data-dir="prev" aria-label="Previous period" disabled>‹</button>' +
+    '<span class="status-range" id="system-status-range">Loading…</span>' +
+    '<button type="button" class="status-nav-btn" data-dir="next" aria-label="Next period" disabled>›</button>' +
+    "</div></div>" +
+    '<div id="system-status-rows" class="status-rows">' +
+    SPINNER +
+    "</div></section>";
+
+  // Sapper hydrates over the SSR'd DOM and discards any element it
+  // doesn't recognize as part of its own component tree — so this
+  // section can't just be static markup in index.html, it has to be
+  // built and (re-)inserted from script, and watched in case
+  // hydration tears it out from under us.
+  function findAnchor() {
+    return document.querySelector(".f.changed");
+  }
+
+  function buildSection() {
+    var wrapper = document.createElement("div");
+    wrapper.innerHTML = SECTION_HTML;
+    return wrapper.firstElementChild;
+  }
+
+  var refs = null; // { root, rangeLabel, prevBtn, nextBtn }
+
+  function ensureSection() {
+    var existing = document.getElementById("system-status");
+    if (existing) return existing;
+
+    var anchor = findAnchor();
+    if (!anchor || !anchor.parentNode) return null;
+
+    var section = buildSection();
+    anchor.parentNode.insertBefore(section, anchor);
+
+    refs = {
+      root: section.querySelector("#system-status-rows"),
+      rangeLabel: section.querySelector("#system-status-range"),
+      prevBtn: section.querySelector('.status-nav-btn[data-dir="prev"]'),
+      nextBtn: section.querySelector('.status-nav-btn[data-dir="next"]'),
+    };
+    refs.prevBtn.addEventListener("click", onPrev);
+    refs.nextBtn.addEventListener("click", onNext);
+
+    if (state.ready) render();
+    else if (state.error) showError();
+
+    return section;
+  }
+
+  function watchForRemoval() {
+    var host = document.querySelector("main.container") || document.body;
+    if (!host || !window.MutationObserver) return;
+    new MutationObserver(function () {
+      if (!document.getElementById("system-status")) ensureSection();
+    }).observe(host, { childList: true });
+  }
 
   function toDateOnly(d) {
     return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
@@ -130,82 +194,102 @@
     return row;
   }
 
-  function init(sites, issuesBySlug, startBySlug) {
+  var state = {
+    ready: false,
+    error: false,
+    sites: null,
+    issuesBySlug: {},
+    startBySlug: {},
+    windowEnd: toDateOnly(new Date()),
+  };
+
+  function render() {
+    if (!refs || !refs.root) return;
     var today = toDateOnly(new Date());
-    var windowEnd = today;
+    var windowStart = addDays(state.windowEnd, -(WINDOW_DAYS - 1));
 
-    function render() {
-      var windowStart = addDays(windowEnd, -(WINDOW_DAYS - 1));
-      root.innerHTML = "";
-      sites.forEach(function (site) {
-        var events = issuesBySlug[site.slug] || [];
-        var siteStart = startBySlug[site.slug] || null;
-        root.appendChild(renderRow(site, events, siteStart, windowStart, windowEnd));
-      });
-      rangeLabel.textContent = formatRange(windowStart, windowEnd);
-
-      var earliestStart = sites.reduce(function (min, site) {
-        var s = startBySlug[site.slug];
-        if (!s) return min;
-        return !min || s < min ? s : min;
-      }, null);
-      prevBtn.disabled = !!earliestStart && windowStart <= earliestStart;
-      nextBtn.disabled = windowEnd >= today;
-    }
-
-    prevBtn.addEventListener("click", function () {
-      windowEnd = addDays(windowEnd, -WINDOW_DAYS);
-      render();
+    refs.root.innerHTML = "";
+    state.sites.forEach(function (site) {
+      var events = state.issuesBySlug[site.slug] || [];
+      var siteStart = state.startBySlug[site.slug] || null;
+      refs.root.appendChild(renderRow(site, events, siteStart, windowStart, state.windowEnd));
     });
-    nextBtn.addEventListener("click", function () {
-      windowEnd = addDays(windowEnd, WINDOW_DAYS);
-      if (windowEnd > today) windowEnd = today;
-      render();
-    });
+    refs.rangeLabel.textContent = formatRange(windowStart, state.windowEnd);
 
+    var earliestStart = state.sites.reduce(function (min, site) {
+      var s = state.startBySlug[site.slug];
+      if (!s) return min;
+      return !min || s < min ? s : min;
+    }, null);
+    refs.prevBtn.disabled = !!earliestStart && windowStart <= earliestStart;
+    refs.nextBtn.disabled = state.windowEnd >= today;
+  }
+
+  function showError() {
+    if (!refs || !refs.root) return;
+    refs.root.innerHTML = "";
+    refs.root.appendChild(el("p", "status-error", "Status data is unavailable right now."));
+    refs.rangeLabel.textContent = "";
+    refs.prevBtn.disabled = true;
+    refs.nextBtn.disabled = true;
+  }
+
+  function onPrev() {
+    state.windowEnd = addDays(state.windowEnd, -WINDOW_DAYS);
     render();
   }
 
-  fetchJson(RAW_BASE + "summary.json")
-    .then(function (sites) {
-      var startBySlug = {};
-      var startFetches = sites.map(function (site) {
-        return fetch(RAW_BASE + site.slug + ".yml")
-          .then(function (res) {
-            return res.ok ? res.text() : "";
-          })
-          .then(function (text) {
-            var m = text.match(/startTime:\s*([^\n]+)/);
-            if (m) startBySlug[site.slug] = toDateOnly(new Date(m[1].trim()));
-          })
-          .catch(function () {});
-      });
+  function onNext() {
+    var today = toDateOnly(new Date());
+    state.windowEnd = addDays(state.windowEnd, WINDOW_DAYS);
+    if (state.windowEnd > today) state.windowEnd = today;
+    render();
+  }
 
-      var issuesBySlug = {};
-      var issuesFetch = fetchJson(ISSUES_URL)
-        .then(function (issues) {
-          var events = issues.map(classifyIssue).filter(Boolean);
-          // Single-monitor setup: attribute all events to every site.
-          sites.forEach(function (site) {
-            issuesBySlug[site.slug] = events;
-          });
-        })
-        .catch(function () {
-          // Rate-limited or offline — fall back to an all-green bar.
-          sites.forEach(function (site) {
-            issuesBySlug[site.slug] = [];
-          });
+  function loadData() {
+    fetchJson(RAW_BASE + "summary.json")
+      .then(function (sites) {
+        state.sites = sites;
+
+        var startFetches = sites.map(function (site) {
+          return fetch(RAW_BASE + site.slug + ".yml")
+            .then(function (res) {
+              return res.ok ? res.text() : "";
+            })
+            .then(function (text) {
+              var m = text.match(/startTime:\s*([^\n]+)/);
+              if (m) state.startBySlug[site.slug] = toDateOnly(new Date(m[1].trim()));
+            })
+            .catch(function () {});
         });
 
-      return Promise.all(startFetches.concat([issuesFetch])).then(function () {
-        init(sites, issuesBySlug, startBySlug);
+        var issuesFetch = fetchJson(ISSUES_URL)
+          .then(function (issues) {
+            var events = issues.map(classifyIssue).filter(Boolean);
+            sites.forEach(function (site) {
+              state.issuesBySlug[site.slug] = events;
+            });
+          })
+          .catch(function () {
+            // Rate-limited or offline — fall back to an all-green bar.
+            sites.forEach(function (site) {
+              state.issuesBySlug[site.slug] = [];
+            });
+          });
+
+        return Promise.all(startFetches.concat([issuesFetch]));
+      })
+      .then(function () {
+        state.ready = true;
+        render();
+      })
+      .catch(function () {
+        state.error = true;
+        showError();
       });
-    })
-    .catch(function () {
-      root.innerHTML = "";
-      root.appendChild(el("p", "status-error", "Status data is unavailable right now."));
-      rangeLabel.textContent = "";
-      prevBtn.disabled = true;
-      nextBtn.disabled = true;
-    });
+  }
+
+  ensureSection();
+  watchForRemoval();
+  loadData();
 })();
