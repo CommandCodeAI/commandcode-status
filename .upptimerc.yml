@@ -7,7 +7,7 @@ sites:
 
 status-website:
   cname: status.commandcode.ai
-  logoUrl: https://raw.githubusercontent.com/CommandCodeAI/docs-images/refs/heads/main/design/logo/logo-symbol.svg
+  logoUrl: https://commandcode.ai/logov2/logo-bg-transparent-fg-dark.svg
   faviconSvg: https://raw.githubusercontent.com/CommandCodeAI/commandcode-status/master/assets/favicon.svg
   name: Status
   navbar:
